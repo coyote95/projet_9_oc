@@ -10,8 +10,10 @@
     <h1 class="text-white text-center">LITReview version2</h1>
 </header>
 
-    {% block content2 %}
-    {% endblock content2 %}
+    {% block content2 %} {% endblock content2 %}
+    {% if user.is_authenticated %}
+        <p>Vous êtes connectés en tant que {{request.user}}.<a href="{% url 'logout' %}"> Se déconnecter</a> </p>
+    {% endif %}
 
     <!-- Scripts Bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
