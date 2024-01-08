@@ -1,9 +1,18 @@
 {% extends 'base2.html' %}
 {% block content2 %}
-    <p>{{ message }}</p>
-    <form method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <button type="submit" >Se connecter</button>
-    </form>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p> inscrivez-vous maintenant </p>
+        </div>
+        <div class="col">
+            <p>Connectez-vous</p>
+            <form method="post">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <button type="submit" >Se connecter</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock content2 %}
