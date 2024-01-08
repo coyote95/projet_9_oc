@@ -4,7 +4,9 @@
     <div class="row">
         <div class="col">
             <p> inscrivez-vous maintenant! </p>
-            <p><a href="{% url 'signup' %}" >Devenir membre </a></p>
+            <form method="get" action="{% url 'signup' %}">
+                <button type="submit">Devenir membre</button>
+            </form>
         </div>
         <div class="col">
             <p>Connectez-vous</p>
