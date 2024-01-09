@@ -3,4 +3,8 @@
   <h2>{{ticket.title}}</h2>
    <img src ="{{ticket.image.url}}">
 <p>{{ticket.description}}</p>
+<p>
+            <form method="get" action="{% url 'edit_ticket' ticket.id %}">
+                <button type="submit">Modifier</button>
+            </form></p>
 {% endblock content2 %}
