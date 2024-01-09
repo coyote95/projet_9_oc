@@ -1,4 +1,9 @@
 {% extends 'base2.html' %}
 {% block content2 %}
- <p> Vous êtes connectés !</p>
+ <h2> Page Home</h2>
+    <p>Tickets</p>
+    {% for ticket in tickets %}
+        <img src="{{ ticket.image.url }}">
+        <p>{{ ticket.caption }}</p>
+  {% endfor %}
 {% endblock content2 %}
