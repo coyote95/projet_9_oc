@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from . import forms
 from . import models
@@ -27,3 +27,9 @@ def ticket_create(request):
             logger.info(f"Ticket data after save: {ticket.__dict__}")
             return redirect('home')
     return render(request, 'blog/ticket_create.html', context={'form': form})
+
+
+@login_required
+def view_ticket(request, ticket_id):
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    return render(request, 'blog/view_ticket.html', {'ticket': ticket})

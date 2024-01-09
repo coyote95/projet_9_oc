@@ -27,7 +27,7 @@
 
 
     {% if user.is_authenticated %}
-        <p>Vous êtes connectés en tant que {{request.user}}.<a href="{% url 'logout' %}"> Se déconnecter</a> </p>
+        <p>Vous êtes connectés en tant que {{request.user}}. </p>
     {% endif %}
 <main>
  {% block content2 %} {% endblock content2 %}

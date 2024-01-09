@@ -1,9 +1,20 @@
 {% extends 'base2.html' %}
 {% block content2 %}
  <h2> Page Home</h2>
-    <p>Tickets</p>
+ <form method="get" action="{% url 'ticket_create' %}">
+                <button type="submit">Créer une critique</button>
+            </form>
+    <h2>Tickets</h2>
+<div class="grid-container">
     {% for ticket in tickets %}
-        <img src="{{ ticket.image.url }}">
-        <p>{{ ticket.caption }}</p>
-  {% endfor %}
+    <div class="post">
+
+            <a href="{% url 'view_ticket' ticket.id%}">
+                <h3>Critique: {{ticket.title}}</h3>
+            <img src="{{ ticket.image.url }}">
+                <p>Description: {{ ticket.description }}</p>
+
+        </div>
+    {% endfor %}
+</div>
 {% endblock content2 %}

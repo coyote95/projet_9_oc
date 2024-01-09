@@ -1,3 +1,9 @@
 from django.contrib import admin
+from blog.models import Ticket
 
-# Register your models here.
+
+class TicketsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'user', 'time_created')
+
+
+admin.site.register(Ticket, TicketsAdmin)
