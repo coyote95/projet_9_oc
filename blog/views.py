@@ -56,6 +56,8 @@ def view_ticket(request, ticket_id):
 @login_required
 def edit_ticket(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    if request.user != ticket.user:
+        return redirect('home')
     edit_form = forms.TicketForm(instance=ticket)
     delete_form = forms.DeleteTicketForm()
     if request.method == "POST":

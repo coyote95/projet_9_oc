@@ -1,10 +1,19 @@
 {% extends 'base2.html' %}
 {% block content2 %}
+
+    <p>Créé par: {{ ticket.user }}</p>
+    <p>Utilisateur actuel: {{ user }}</p>
   <h2>{{ticket.title}}</h2>
    <img src ="{{ticket.image.url}}">
 <p>{{ticket.description}}</p>
 <p>
+
+{% if user == ticket.user %}
             <form method="get" action="{% url 'edit_ticket' ticket.id %}">
                 <button type="submit">Modifier</button>
-            </form></p>
+            </form>
+{% endif %}
+ <form method="get" action="{% url 'home' %}">
+                <button type="submit">Retour</button>
+            </form>
 {% endblock content2 %}

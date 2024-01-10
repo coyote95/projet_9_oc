@@ -1,5 +1,8 @@
 {% extends 'base2.html' %}
 {% block content2 %}
+
+
+
   <h2>Modifier le ticket</h2>
     <form method="post">
         {{ edit_form.as_p }}
@@ -13,4 +16,10 @@
         {% csrf_token %}
         <button type="submit" name="delete_ticket">Supprimer</button>
     </form>
+
+
+<p>afficher element du billet</p>
+
+
+
 {% endblock content2 %}
