@@ -1,7 +1,7 @@
 {% extends 'base2.html' %}
 
 {% block content2 %}
-    <h2>Page d'accueil</h2>
+    <h2 class="text-center">Page d'accueil</h2>
 
 <div class="row m-3 ">
     <div class="col d-flex justify-content-center">
@@ -25,7 +25,11 @@
                     <img src="{{ ticket.image.url }}" class="card-img-top  img-fluid" alt="Image du ticket">
                     <div class="card-body">
                         <h3 class="card-title">{{ ticket.get_ticket_type_display }} : {{ ticket.title }}</h3>
-                        <p class="card-text">Description : {{ ticket.description }}</p>
+                        <p class="card-text">
+                            Publié par {{ticket.user}} ({{ticket.time_created}})
+                            <br>
+                            Description : {{ ticket.description }}
+                        </p>
                         <a href="{% url 'view_ticket' ticket.id %}" class="btn btn-primary">Voir les détails</a>
                     </div>
                 </div>

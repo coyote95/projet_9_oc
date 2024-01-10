@@ -1,19 +1,26 @@
 {% extends 'base2.html' %}
 {% block content2 %}
 
-    <p>Créé par: {{ ticket.user }}</p>
-    <p>Utilisateur actuel: {{ user }}</p>
-  <h2>{{ticket.title}}</h2>
-   <img src ="{{ticket.image.url}}">
-<p>{{ticket.description}}</p>
-<p>
+<div class="text-center">
+    <h2>{{ticket.title}}</h2>
+    <p> Créé par: {{ ticket.user }} ({{ticket.time_created}})</p>
+    <img src ="{{ticket.image.url}}">
+    <p>{{ticket.description}}</p>
 
-{% if user == ticket.user %}
-            <form method="get" action="{% url 'edit_ticket' ticket.id %}">
-                <button type="submit">Modifier</button>
-            </form>
-{% endif %}
- <form method="get" action="{% url 'home' %}">
-                <button type="submit">Retour</button>
-            </form>
-{% endblock content2 %}
+    <div class="row">
+
+        {% if user == ticket.user %}
+        <div class="col">
+                    <form method="get" action="{% url 'edit_ticket' ticket.id %}">
+                        <button type="submit" class="btn btn-secondary">Modifier</button>
+                    </form>
+        </div>
+        {% endif %}
+        <div class="col">
+                <form method="get" action="{% url 'home' %}">
+                    <button type="submit" class="btn btn-secondary">Retour</button>
+                </form>
+        </div>
+        {% endblock content2 %}
+    </div>
+</div>

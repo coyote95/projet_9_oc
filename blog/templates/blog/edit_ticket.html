@@ -1,20 +1,18 @@
 {% extends 'base2.html' %}
 {% block content2 %}
 
-
-
   <h2>Modifier le ticket</h2>
     <form method="post">
         {{ edit_form.as_p }}
         {% csrf_token %}
-        <button type="submit" >Sauvegarder</button>
+        <button type="submit" class="btn btn-secondary" >Sauvegarder</button>
     </form>
 <hr>
     <h2>Supprimer le billet</h2>
     <form method="post">
         {{delete_form}}
         {% csrf_token %}
-        <button type="submit" name="delete_ticket">Supprimer</button>
+        <button type="submit" name="delete_ticket" class="btn btn-secondary">Supprimer</button>
     </form>
 
 
