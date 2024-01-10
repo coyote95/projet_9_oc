@@ -13,20 +13,38 @@ def home(request):
     return render(request, 'blog/home.html', context={'tickets': tickets})
 
 
-@login_required
 def ticket_create(request):
-    form = forms.TicketForm()
     if request.method == 'POST':
         form = forms.TicketForm(request.POST, request.FILES)
+
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.uploader = request.user
-            logger.info(f"Ticket data before save: {ticket.__dict__}")
+            ticket.ticket_type = 'CREATED'
             ticket.save()
-            logger.info(f"Ticket data after save: {ticket.__dict__}")
             return redirect('home')
-    return render(request, 'blog/ticket_create.html', context={'form': form})
+    else:
+        form = forms.TicketForm()
+
+    return render(request, 'blog/ticket_create.html', {'form': form})
+
+
+def ticket_request(request):
+    if request.method == 'POST':
+        form = forms.TicketForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.user = request.user
+            ticket.uploader = request.user
+            ticket.ticket_type = 'REQUEST'
+            ticket.save()
+            return redirect('home')
+    else:
+        form = forms.TicketForm()
+
+    return render(request, 'blog/ticket_request.html', {'form': form})
 
 
 @login_required
