@@ -1,20 +1,27 @@
 {% extends 'base2.html' %}
+
 {% block content2 %}
- <h2> Page Home</h2>
- <form method="get" action="{% url 'ticket_create' %}">
-                <button type="submit">Créer une critique</button>
-            </form>
+    <h2>Page d'accueil</h2>
+    <form method="get" action="{% url 'ticket_create' %}">
+        <button type="submit" class="btn btn-secondary">Créer une critique</button>
+    </form>
     <h2>Tickets</h2>
-<div class="grid-container">
-    {% for ticket in tickets %}
-    <div class="post">
 
-            <a href="{% url 'view_ticket' ticket.id%}">
-                <h3>Critique: {{ticket.title}}</h3>
-            <img src="{{ ticket.image.url }}">
-                <p>Description: {{ ticket.description }}</p>
 
-        </div>
-    {% endfor %}
-</div>
+         <div class="row align-items-stretch">
+        {% for ticket in tickets %}
+ <div class="col-4">
+                <div class="card" style="width:100%" >
+                    <img src="{{ ticket.image.url }}" class="card-img-top  img-fluid" alt="Image du ticket">
+                    <div class="card-body">
+                        <h3 class="card-title">Critique : {{ ticket.title }}</h3>
+                        <p class="card-text">Description : {{ ticket.description }}</p>
+                        <a href="{% url 'view_ticket' ticket.id %}" class="btn btn-primary">Voir les détails</a>
+                    </div>
+                </div>
+ </div>
+        {% endfor %}
+         </div>
+
+
 {% endblock content2 %}
