@@ -7,7 +7,7 @@ class TicketForm(forms.ModelForm):
 
     class Meta:
         model = models.Ticket
-        fields = ['title', 'image', 'caption', 'description']
+        fields = ['title', 'image', 'description']
 
 
 class DeleteTicketForm(forms.Form):

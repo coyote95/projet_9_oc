@@ -8,7 +8,6 @@ class Ticket(models.Model):
     description = models.TextField(max_length=2048, blank=True, verbose_name="description")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_tickets')
     image = models.ImageField(null=True, blank=True, verbose_name='image')
-    caption = models.CharField(max_length=128, blank=True)
     uploader = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='uploaded_tickets')
     time_created = models.DateTimeField(auto_now_add=True)
     IMAGE_MAX_SIZE = (800, 800)

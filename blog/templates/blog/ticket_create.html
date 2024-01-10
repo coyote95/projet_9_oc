@@ -6,4 +6,7 @@
         {% csrf_token %}
         <button type="submit" >Publier</button>
     </form>
+   <form method="get" action="{% url 'home' %}">
+                <button type="submit">Annuler</button>
+            </form>
 {% endblock content2 %}
