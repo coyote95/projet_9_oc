@@ -1,0 +1,13 @@
+{% extends 'base2.html' %}
+{% block content2 %}
+  <h2>Création de review</h2>
+    <form method="post"  >
+        {{ form.as_p }}
+           {% csrf_token %}
+        <button type="submit" >Publier</button>
+    </form>
+   <form method="get" action="{% url 'home' %}">
+                <button type="submit" class="btn btn-secondary">Annuler</button>
+            </form>
+
+{% endblock content2 %}
