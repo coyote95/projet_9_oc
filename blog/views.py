@@ -11,12 +11,12 @@ logger = logging.getLogger(__name__)
 def home(request):
     tickets = models.Ticket.objects.all()
     reviews = models.Review.objects.all()
-    return render(request, 'blog/home.html', context={'tickets': tickets,'reviews':reviews})
+    return render(request, 'blog/home.html', context={'tickets': tickets, 'reviews': reviews})
 
 
 @login_required
-def review_create(request,ticket_id):
-    ticket = get_object_or_404(models.Ticket, pk=ticket_id)
+def review_create(request, ticket_id):
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
     if request.method == 'POST':
         form = forms.ReviewForm(request.POST)
         if form.is_valid():
@@ -28,7 +28,8 @@ def review_create(request,ticket_id):
     else:
         form = forms.ReviewForm()
 
-    return render(request, 'blog/review_create.html', {'form': form,'ticket':ticket})
+    return render(request, 'blog/review_create.html', {'form': form, 'ticket': ticket})
+
 
 @login_required
 def ticket_create(request):

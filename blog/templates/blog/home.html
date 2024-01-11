@@ -48,20 +48,21 @@
   {% for review in reviews %}
     <div class="col-4">
         <div class="card m-3" style="width:100%" >
-            <h3 class="card-title"> Review: : {{ review.headline}} Rating:{{review.rating}}</h3>
        {% if review.ticket.image %}
                     <img class="card-img-top  img-fluid" src="{{ review.ticket.image.url }}" alt="Review Image">
             {% endif %}
+                        <h3 class="card-title"> Review: : {{ review.headline}} Rating:{{review.rating}}</h3>
+
 
             <p class="card-text">
                 Publié par: {{review.user}} ({{review.time_created}})
                 <br>
                 Description : {{ review.body }}
             </p>
-        <div>
+        </div>
     </div>
              {% endfor %}
-        </div>
+</div>
 
 
 {% endblock content2 %}

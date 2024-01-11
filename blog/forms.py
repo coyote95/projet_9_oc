@@ -5,7 +5,7 @@ from . import models
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = models.Review
-        fields = ['ticket', 'rating', 'user','headline','body']
+        fields = ['rating', 'headline', 'body']
 
 
 class TicketForm(forms.ModelForm):
