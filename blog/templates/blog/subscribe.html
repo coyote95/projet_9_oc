@@ -1,0 +1,12 @@
+{% extends 'base2.html' %}
+{% block content2 %}
+  <h2>Abonnements</h2>
+<form method="post" action="{% url 'subscribe' %}">
+    {% csrf_token %}
+    {{ form.username.errors }}
+    {{ form.username.label_tag }}
+    {{ form.username }}
+    <button type="submit">S'abonner</button>
+</form>
+
+{% endblock content2 %}

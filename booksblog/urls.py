@@ -34,6 +34,7 @@ urlpatterns = [
     path('ticket/<int:ticket_id>', blog.views.view_ticket, name='view_ticket'),
     path('ticket/<int:ticket_id>/edit', blog.views.edit_ticket, name='edit_ticket'),
     path('review/<int:ticket_id>/create/', blog.views.review_create, name='review_create'),
+    path('subscribe/', blog.views.subscribe, name='subscribe'),
 ]
 
 if settings.DEBUG:

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from authentication.models import User, UserFollows
 from . import forms
 from . import models
 import logging
@@ -95,3 +96,32 @@ def edit_ticket(request, ticket_id):
         'delete_form': delete_form,
     }
     return render(request, 'blog/edit_ticket.html', context=context)
+
+
+@login_required
+def subscribe(request):
+    if request.method == 'POST':
+        form = forms.UserFollowsForm(request.POST)
+        current_user = request.user  # Ou utilisez la logique appropriée pour obtenir l'utilisateur actuel
+
+        if form.is_valid():
+            username = form.cleaned_data['username']
+
+            # Essayez de récupérer l'utilisateur ou renvoyez une réponse 404 personnalisée
+            try:
+                user_to_follow = User.objects.get(username=username)
+
+                # Vérifiez si la relation d'abonnement n'existe pas déjà
+                if not UserFollows.objects.filter(user=current_user, followed_user=user_to_follow).exists():
+                    UserFollows.objects.create(user=current_user, followed_user=user_to_follow)
+                    return redirect('home')  # Redirigez vers la page suivante après l'abonnement
+                else:
+                    form.add_error('username', "Vous êtes déjà abonné à cet utilisateur.")
+
+            except User.DoesNotExist:
+                form.add_error('username', "L'utilisateur n'existe pas.")
+
+    else:
+        form = forms.UserFollowsForm()
+
+    return render(request, 'blog/subscribe.html', {'form': form})
