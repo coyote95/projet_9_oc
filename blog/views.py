@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from authentication.models import User, UserFollows
+from django.contrib import messages
+from django.http import HttpResponseForbidden
 from . import forms
 from . import models
 import logging
@@ -100,9 +102,10 @@ def edit_ticket(request, ticket_id):
 
 @login_required
 def subscribe(request):
+    current_user = request.user  # Ou utilisez la logique appropriée pour obtenir l'utilisateur actuel
+
     if request.method == 'POST':
         form = forms.UserFollowsForm(request.POST)
-        current_user = request.user  # Ou utilisez la logique appropriée pour obtenir l'utilisateur actuel
 
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -112,16 +115,45 @@ def subscribe(request):
                 user_to_follow = User.objects.get(username=username)
 
                 # Vérifiez si la relation d'abonnement n'existe pas déjà
-                if not UserFollows.objects.filter(user=current_user, followed_user=user_to_follow).exists():
+                if user_to_follow == current_user:
+                    form.add_error('username', "Vous ne pouvez pas vous abonner à vous-même.")
+                elif not UserFollows.objects.filter(user=current_user, followed_user=user_to_follow).exists():
                     UserFollows.objects.create(user=current_user, followed_user=user_to_follow)
-                    return redirect('home')  # Redirigez vers la page suivante après l'abonnement
+                    return redirect('subscribe')  # Redirigez vers la page suivante après l'abonnement
                 else:
                     form.add_error('username', "Vous êtes déjà abonné à cet utilisateur.")
-
             except User.DoesNotExist:
                 form.add_error('username', "L'utilisateur n'existe pas.")
 
     else:
         form = forms.UserFollowsForm()
 
-    return render(request, 'blog/subscribe.html', {'form': form})
+        # Récupérez les personnes auxquelles l'utilisateur est abonné
+    following = UserFollows.objects.filter(user=current_user).values_list('followed_user__username', flat=True)
+
+    # Récupérez les personnes abonnées à l'utilisateur
+    followers = UserFollows.objects.filter(followed_user=current_user).values_list('user__username', flat=True)
+
+    return render(request, 'blog/subscribe.html', {'form': form, 'following':following, 'followers':followers})
+
+
+@login_required
+def unsubscribe(request):
+    if request.method == 'POST':
+        current_user = request.user
+        unfollow_username = request.POST.get('unfollow_username', None)
+
+        if unfollow_username:
+            try:
+                user_to_unfollow = User.objects.get(username=unfollow_username)
+
+                # Vérifiez si l'utilisateur actuel est le propriétaire du compte à désabonner
+                if user_to_unfollow != current_user:
+                    UserFollows.objects.filter(user=current_user, followed_user=user_to_unfollow).delete()
+                    messages.success(request, f"Vous vous êtes désabonné de {unfollow_username}.")
+                else:
+                    return HttpResponseForbidden("Vous ne pouvez pas vous désabonner de vous-même.")
+            except User.DoesNotExist:
+                messages.error(request, "L'utilisateur n'existe pas.")
+
+    return redirect('subscribe')

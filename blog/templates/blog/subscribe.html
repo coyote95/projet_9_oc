@@ -1,6 +1,28 @@
 {% extends 'base2.html' %}
 {% block content2 %}
-  <h2>Abonnements</h2>
+
+  <h2>Personnes auxquelles vous êtes abonné :</h2>
+    <ul>
+        {% for username in following %}
+                <li>
+                {{ username }}
+                <form method="post" action="{% url 'unsubscribe' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="unfollow_username" value="{{ username }}">
+                    <button type="submit">Se désabonner</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Personnes abonnées à vous :</h2>
+    <ul>
+        {% for username in followers %}
+            <li>{{ username }}</li>
+        {% endfor %}
+    </ul>
+
+  <h2>Suivre d'autres utilisateurs</h2>
 <form method="post" action="{% url 'subscribe' %}">
     {% csrf_token %}
     {{ form.username.errors }}
