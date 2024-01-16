@@ -1,5 +1,5 @@
 {% extends 'base2.html' %}
-
+{% load blog_extras %}
 {% block content2 %}
     <h2 class="text-center">Tickets</h2>
 
@@ -21,47 +21,69 @@
 
 <!--tickets-->
 <div class="row  align-items-stretch">
-        {% for ticket in tickets %}
+        {% for instance in tickets_and_reviews %}
+
      <div class="col-4">
+
+         {% if instance|model_type == 'Ticket' %}
+
                     <div class="card m-3" style="width:100%" >
-                        <img src="{{ ticket.image.url }}" class="card-img-top  img-fluid" alt="Image du ticket">
+                        <img src="{{ instance.image.url }}" class="card-img-top  img-fluid" alt="Image du ticket">
                         <div class="card-body">
-                            <h3 class="card-title">{{ ticket.get_ticket_type_display }} : {{ ticket.title }}</h3>
+                            <h3 class="card-title">{{ instance.get_ticket_type_display }} : {{ instance.title }}</h3>
                             <p class="card-text">
-                                Publié par {{ticket.user}} ({{ticket.time_created}})
+                                Publié par {{instance.user}} ({{instance.time_created}})
                                 <br>
-                                Description : {{ ticket.description }}
+                                Description : {{ instance.description }}
                             </p>
-                            <a href="{% url 'view_ticket' ticket.id %}" class="btn btn-primary">Voir les détails</a>
-                             <a href="{% url 'review_create' ticket.id %}" class="btn btn-primary">review</a>
+                            <a href="{% url 'view_ticket' instance.id %}" class="btn btn-primary">Voir les détails</a>
+                             <a href="{% url 'review_create' instance.id %}" class="btn btn-primary">review</a>
                         </div>
                     </div>
+         {% elif instance|model_type == 'Review' %}
+
+            <div class="card m-3" style="width:100%" >
+                {% if instance.ticket.image %}
+                        <img class="card-img-top  img-fluid" src="{{ instance.ticket.image.url }}" alt="Review Image">
+                {% endif %}
+                        <h3 class="card-title"> Review: : {{ instance.headline}} Rating:{{instance.rating}}</h3>
+
+                <p class="card-text">
+                    Publié par: {{instance.user}} ({{instance.time_created}})
+                    <br>
+                    Description : {{ instance.body }}
+                </p>
+            </div>
+
+         {% endif %}
+
      </div>
+
         {% endfor %}
 </div>
 
 <!--review-->
 
-<h2 class="text-center">Review</h2>
-<div class="row  align-items-stretch">
-  {% for review in reviews %}
-    <div class="col-4">
-        <div class="card m-3" style="width:100%" >
-       {% if review.ticket.image %}
-                    <img class="card-img-top  img-fluid" src="{{ review.ticket.image.url }}" alt="Review Image">
-            {% endif %}
-                        <h3 class="card-title"> Review: : {{ review.headline}} Rating:{{review.rating}}</h3>
+<!--<h2 class="text-center">Review</h2>-->
+<!--<div class="row  align-items-stretch">-->
+<!--  {% for review in reviews %}-->
+<!--    <div class="col-4">-->
+<!--        <div class="card m-3" style="width:100%" >-->
+<!--       {% if review.ticket.image %}-->
+<!--                    <img class="card-img-top  img-fluid" src="{{ review.ticket.image.url }}" alt="Review Image">-->
+<!--            {% endif %}-->
+<!--                        <h3 class="card-title"> Review: : {{ review.headline}} Rating:{{review.rating}}</h3>-->
 
 
-            <p class="card-text">
-                Publié par: {{review.user}} ({{review.time_created}})
-                <br>
-                Description : {{ review.body }}
-            </p>
-        </div>
-    </div>
-             {% endfor %}
-</div>
+<!--            <p class="card-text">-->
+<!--                Publié par: {{review.user}} ({{review.time_created}})-->
+<!--                <br>-->
+<!--                Description : {{ review.body }}-->
+<!--            </p>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--             {% endfor %}-->
+<!--</div>-->
 
 
 {% endblock content2 %}
