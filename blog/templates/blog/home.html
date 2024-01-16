@@ -32,7 +32,7 @@
                         <div class="card-body">
                             <h3 class="card-title">{{ instance.get_ticket_type_display }} : {{ instance.title }}</h3>
                             <p class="card-text">
-                                Publié par {{instance.user}} ({{instance.time_created}})
+                                Publié par {% display_you instance.user %} ({{instance.time_created}})
                                 <br>
                                 Description : {{ instance.description }}
                             </p>

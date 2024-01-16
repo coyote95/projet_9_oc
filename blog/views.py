@@ -24,10 +24,8 @@ def home(request):
     following_users = UserFollows.objects.filter(user=request.user).values_list('followed_user', flat=True)
 
     # Filtrer les tickets et les reviews publiés par les utilisateurs suivis
-    tickets = models.Ticket.objects.filter(
-        Q(user__in=following_users) | (Q(ticket_type='REQUEST') |  Q(ticket_type='CREATED'))
-    ).distinct()
-    reviews = models.Review.objects.filter(ticket__in=tickets)
+    tickets = models.Ticket.objects.filter(Q(user__in=following_users) | Q(user=request.user)).distinct()
+    reviews = models.Review.objects.filter(Q(user__in=following_users) | Q(user=request.user)).distinct()
 
     # Trier la liste combinée par ordre de time_created
     tickets_and_reviews = sorted(
