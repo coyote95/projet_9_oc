@@ -12,8 +12,6 @@ class ReviewForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['rating'].widget = forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)])
-        self.fields['rating'].widget.attrs.update({'class': 'radio-inline'})
-
 
 
 class TicketForm(forms.ModelForm):
@@ -31,6 +29,3 @@ class DeleteTicketForm(forms.Form):
 
 class UserFollowsForm(forms.Form):
     username = forms.CharField(label='Nom de l\'utilisateur')
-
-
-
