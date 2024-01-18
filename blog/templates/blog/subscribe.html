@@ -2,11 +2,11 @@
 {% block content2 %}
 
   <h2>Personnes auxquelles vous êtes abonné :</h2>
-    <ul>
+    <ul class="list-unstyled">
         {% for username in following %}
                 <li>
                 {{ username }}
-                <form method="post" action="{% url 'unsubscribe' %}">
+                <form class= "d-inline" method="post" action="{% url 'unsubscribe' %}">
                     {% csrf_token %}
                     <input type="hidden" name="unfollow_username" value="{{ username }}">
                     <button type="submit">Se désabonner</button>
@@ -16,7 +16,7 @@
     </ul>
 
     <h2>Personnes abonnées à vous :</h2>
-    <ul>
+    <ul class="list-unstyled">
         {% for username in followers %}
             <li>{{ username }}</li>
         {% endfor %}
