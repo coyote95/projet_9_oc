@@ -9,6 +9,12 @@ class ReviewForm(forms.ModelForm):
         model = models.Review
         fields = ['rating', 'headline', 'body']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['rating'].widget = forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)])
+        self.fields['rating'].widget.attrs.update({'class': 'radio-inline'})
+
+
 
 class TicketForm(forms.ModelForm):
     edit_ticket = forms.BooleanField(widget=forms.HiddenInput, initial=True)
