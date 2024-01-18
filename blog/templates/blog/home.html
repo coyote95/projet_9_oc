@@ -4,7 +4,7 @@
     <h2 class="text-center">Tickets</h2>
 
 <!--bouton-->
-<div class="row m-3 ">
+<div class="row m-3">
     <div class="col d-flex justify-content-center">
         <form method="get" action="{% url 'ticket_create' %}">
             <button type="submit" class="btn btn-secondary"  >Créer une critique</button>
@@ -20,70 +20,57 @@
 
 
 <!--tickets-->
-<div class="row  align-items-stretch">
+<div class="row">
         {% for instance in tickets_and_reviews %}
 
-     <div class="col-4">
+     <div class="col-12  col-md-6 col-lg-3">
 
          {% if instance|model_type == 'Ticket' %}
 
-                    <div class="card m-3" style="width:100%" >
-                        <img src="{{ instance.image.url }}" class="card-img-top  img-fluid" alt="Image du ticket">
+                    <div class="card m-2"  >
+                        <p class="fs-5 fw-bold">{{ instance.get_ticket_type_display }}</p>
+                        <img src="{{ instance.image.url }}" class="card-img-top  img-fluid w-50 mx-auto m-3"
+                             alt="Image du ticket">
                         <div class="card-body">
-                            <h3 class="card-title">{{ instance.get_ticket_type_display }} : {{ instance.title }}</h3>
-                            <p class="card-text">
-                                Publié par {% display_you instance.user %} ({{instance.time_created}})
+                            <h3 class="card-title text-center text-primary"> {{ instance.title }}</h3>
+                            <p class="card-text overflow-auto" style="max-height: 200px;">
+                                Publié par <strong>{% display_you instance.user %}</strong> ({{instance.time_created}})
                                 <br>
-                                Description : {{ instance.description }}
+                                <br>
+                               <span class="text-decoration-underline"> Description :</span>
+                                <br>
+                                {{instance.description}}
                             </p>
-                            <a href="{% url 'view_ticket' instance.id %}" class="btn btn-primary">Voir les détails</a>
                              <a href="{% url 'review_create' instance.id %}" class="btn btn-primary">review</a>
                         </div>
                     </div>
          {% elif instance|model_type == 'Review' %}
 
-            <div class="card m-3" style="width:100%" >
+            <div class="card m-2" >
+                 <p class="fs-5 fw-bold">Review</p>
                 {% if instance.ticket.image %}
-                        <img class="card-img-top  img-fluid" src="{{ instance.ticket.image.url }}" alt="Review Image">
+                        <img class="card-img-top  img-fluid w-50 mx-auto m-3" src="{{ instance.ticket.image.url }}" alt="Review Image">
                 {% endif %}
-                        <h3 class="card-title"> Review: : {{ instance.headline}} Rating:{{instance.rating}}</h3>
+                        <h3 class="card-title text-center text-primary "> {{ instance.headline}} Rating:{{instance.rating}}</h3>
 
                 <p class="card-text">
-                    Publié par {% display_you instance.user %} ({{instance.time_created}})
+                    Publié par <strong>{% display_you instance.user %}</strong>  ({{instance.time_created}})
                     <br>
-                    Description : {{ instance.body }}
+                    <br>
+
+                    <span class="text-decoration-underline"> Description :</span>
+                    <br>
+                    {{ instance.body }}
                 </p>
             </div>
 
          {% endif %}
 
      </div>
-
         {% endfor %}
 </div>
 
-<!--review-->
 
-<!--<h2 class="text-center">Review</h2>-->
-<!--<div class="row  align-items-stretch">-->
-<!--  {% for review in reviews %}-->
-<!--    <div class="col-4">-->
-<!--        <div class="card m-3" style="width:100%" >-->
-<!--       {% if review.ticket.image %}-->
-<!--                    <img class="card-img-top  img-fluid" src="{{ review.ticket.image.url }}" alt="Review Image">-->
-<!--            {% endif %}-->
-<!--                        <h3 class="card-title"> Review: : {{ review.headline}} Rating:{{review.rating}}</h3>-->
-
-
-<!--            <p class="card-text">-->
-<!--                Publié par: {{review.user}} ({{review.time_created}})-->
-<!--                <br>-->
-<!--                Description : {{ review.body }}-->
-<!--            </p>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--             {% endfor %}-->
-<!--</div>-->
 
 
 {% endblock content2 %}

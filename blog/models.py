@@ -10,7 +10,7 @@ class Ticket(models.Model):
         ('REQUEST', 'Demande'),
     )
     title = models.CharField(max_length=128, verbose_name='titre')
-    description = models.TextField(max_length=2048, blank=True, verbose_name="description")
+    description = models.TextField(max_length=1000, blank=True, verbose_name="description")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_tickets')
     image = models.ImageField(null=True, blank=True, verbose_name='image')
     uploader = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='uploaded_tickets')
@@ -38,7 +38,7 @@ class Review(models.Model):
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     headline = models.CharField(max_length=128)
-    body = models.TextField(max_length=8192, blank=True)
+    body = models.TextField(max_length=1000, blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

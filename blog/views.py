@@ -35,7 +35,7 @@ def posts(request):
     context = {
         'tickets_and_reviews': tickets_and_reviews,
     }
-    return render(request, 'blog/home.html', context=context)
+    return render(request, 'blog/posts.html', context=context)
 
 @login_required
 def review_create(request, ticket_id):
