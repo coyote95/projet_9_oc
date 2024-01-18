@@ -3,21 +3,6 @@
 {% block content2 %}
     <h2 class="text-center">Tickets</h2>
 
-<!--bouton-->
-<div class="row m-3 ">
-    <div class="col d-flex justify-content-center">
-        <form method="get" action="{% url 'ticket_create' %}">
-            <button type="submit" class="btn btn-secondary"  >Créer une critique</button>
-        </form>
-    </div>
-
-    <div class="col d-flex  justify-content-center">
-      <form method="get" action="{% url 'ticket_request' %}">
-            <button type="submit" class="btn btn-secondary">Demander une critique</button>
-        </form>
-    </div>
-</div>
-
 
 <!--tickets-->
 <div class="row  align-items-stretch">
@@ -49,7 +34,7 @@
                         <h3 class="card-title"> Review: : {{ instance.headline}} Rating:{{instance.rating}}</h3>
 
                 <p class="card-text">
-                    Publié par {% display_you instance.user %} ({{instance.time_created}})
+                    Publié par {% display_you instance.user %}({{instance.time_created}})
                     <br>
                     Description : {{ instance.body }}
                 </p>
@@ -62,28 +47,6 @@
         {% endfor %}
 </div>
 
-<!--review-->
-
-<!--<h2 class="text-center">Review</h2>-->
-<!--<div class="row  align-items-stretch">-->
-<!--  {% for review in reviews %}-->
-<!--    <div class="col-4">-->
-<!--        <div class="card m-3" style="width:100%" >-->
-<!--       {% if review.ticket.image %}-->
-<!--                    <img class="card-img-top  img-fluid" src="{{ review.ticket.image.url }}" alt="Review Image">-->
-<!--            {% endif %}-->
-<!--                        <h3 class="card-title"> Review: : {{ review.headline}} Rating:{{review.rating}}</h3>-->
-
-
-<!--            <p class="card-text">-->
-<!--                Publié par: {{review.user}} ({{review.time_created}})-->
-<!--                <br>-->
-<!--                Description : {{ review.body }}-->
-<!--            </p>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--             {% endfor %}-->
-<!--</div>-->
 
 
 {% endblock content2 %}

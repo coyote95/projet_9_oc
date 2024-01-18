@@ -12,30 +12,30 @@ from itertools import chain
 logger = logging.getLogger(__name__)
 
 
-# @login_required
-# def home(request):
-#     tickets = models.Ticket.objects.all()
-#     reviews = models.Review.objects.all()
-#     return render(request, 'blog/home.html', context={'tickets': tickets, 'reviews': reviews})
-
-
 def home(request):
-    # Récupérer les utilisateurs que l'utilisateur actuel suit
     following_users = UserFollows.objects.filter(user=request.user).values_list('followed_user', flat=True)
-
-    # Filtrer les tickets et les reviews publiés par les utilisateurs suivis
     tickets = models.Ticket.objects.filter(Q(user__in=following_users) | Q(user=request.user)).distinct()
-    reviews = models.Review.objects.filter(Q(user__in=following_users) | Q(user=request.user)).distinct()
-
-    # Trier la liste combinée par ordre de time_created
+    reviews = (models.Review.objects.filter(Q(user__in=following_users) | Q(user=request.user) | Q(ticket__user=
+                                                                                                   request.user)) .distinct())
     tickets_and_reviews = sorted(
-        chain(tickets,reviews), key=lambda instance: instance.time_created, reverse=True)
+        chain(tickets, reviews), key=lambda instance: instance.time_created, reverse=True)
 
     context = {
         'tickets_and_reviews': tickets_and_reviews,
     }
     return render(request, 'blog/home.html', context=context)
 
+
+def posts(request):
+    tickets = models.Ticket.objects.filter(user=request.user).distinct()
+    reviews = (models.Review.objects.filter( Q(user=request.user)) .distinct())
+    tickets_and_reviews = sorted(
+        chain(tickets, reviews), key=lambda instance: instance.time_created, reverse=True)
+
+    context = {
+        'tickets_and_reviews': tickets_and_reviews,
+    }
+    return render(request, 'blog/home.html', context=context)
 
 @login_required
 def review_create(request, ticket_id):
@@ -154,7 +154,7 @@ def subscribe(request):
     # Récupérez les personnes abonnées à l'utilisateur
     followers = UserFollows.objects.filter(followed_user=current_user).values_list('user__username', flat=True)
 
-    return render(request, 'blog/subscribe.html', {'form': form, 'following':following, 'followers':followers})
+    return render(request, 'blog/subscribe.html', {'form': form, 'following': following, 'followers': followers})
 
 
 @login_required

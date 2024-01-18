@@ -36,6 +36,7 @@ urlpatterns = [
     path('review/<int:ticket_id>/create/', blog.views.review_create, name='review_create'),
     path('subscribe/', blog.views.subscribe, name='subscribe'),
     path('unsubscribe/', blog.views.unsubscribe, name='unsubscribe'),
+    path('posts/',blog.views.posts, name='posts'),
 ]
 
 if settings.DEBUG:
