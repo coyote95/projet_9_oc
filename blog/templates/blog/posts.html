@@ -1,6 +1,7 @@
-{% extends 'base2.html' %}
+{% extends 'base.html' %}
 {% load blog_extras %}
-{% block content2 %}
+{% load static %}
+{% block content %}
 
 
 <h3>Voici vos posts</h3>
@@ -36,7 +37,20 @@
                 {% if instance.ticket.image %}
                         <img class="card-img-top  img-fluid w-50 mx-auto m-3" src="{{ instance.ticket.image.url }}" alt="Review Image">
                 {% endif %}
-                        <h3 class="card-title text-center text-primary "> {{ instance.headline}} Rating:{{instance.rating}}</h3>
+                        <h3 class="card-title text-center text-primary "> {{ instance.headline}} </h3>
+                <p> <span class="text-decoration-underline"> Rating:</span>
+                    {% if instance.rating == 5 %}
+                    <img src="{% static 'images/stars5.png' %}" alt="Image for Rating 5">
+                       {% elif instance.rating == 4 %}
+                    <img src="{% static 'images/stars4.png' %}" alt="Image for Rating 4">
+                        {% elif instance.rating == 3 %}
+                    <img src="{% static 'images/stars3.png' %}" alt="Image for Rating 3">
+                       {% elif instance.rating == 2 %}
+                    <img src="{% static 'images/stars4.png' %}" alt="Image for Rating 2">
+                        {% elif instance.rating == 1 %}
+                    <img src="{% static 'images/stars1.png' %}" alt="Image for Rating 1">
+                {% endif %}
+                </p>
 
                 <p class="card-text">
                     Publié par <strong>{% display_you instance.user %}</strong>  ({{instance.time_created}})
@@ -55,4 +69,4 @@
         {% endfor %}
 </div>
 
-{% endblock content2 %}
+{% endblock content %}

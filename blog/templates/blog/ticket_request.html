@@ -1,5 +1,5 @@
-{% extends 'base2.html' %}
-{% block content2 %}
+{% extends 'base.html' %}
+{% block content %}
   <h2>Demande ticket</h2>
     <form method="post" enctype="multipart/form-data" >
         {{ form.as_p }}
@@ -10,4 +10,4 @@
                 <button type="submit">Annuler</button>
             </form>
 
-{% endblock content2 %}
+{% endblock content %}
