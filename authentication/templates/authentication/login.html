@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <p> inscrivez-vous maintenant! </p>
+<div class="container m-5">
+    <div class="row pt-5 justify-content-center">
+        <div class="col-12 col-md-5 m-3 p-3">
+            <p class="fw-bold"> Inscrivez-vous maintenant! </p>
             <form method="get" action="{% url 'signup' %}">
                 <button type="submit">Sinscrire</button>
             </form>
         </div>
-        <div class="col">
-            <p>Connectez-vous</p>
+        <div class="col-12 col-md-5 m-3 p-3">
+            <p class="fw-bold">Connectez-vous:</p>
             <form method="post">
                 {{ form.as_p }}
                 {% csrf_token %}
