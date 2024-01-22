@@ -12,6 +12,7 @@ from itertools import chain
 logger = logging.getLogger(__name__)
 
 
+@login_required
 def home(request):
     following_users = UserFollows.objects.filter(user=request.user).values_list('followed_user', flat=True)
     tickets = models.Ticket.objects.filter(Q(user__in=following_users) | Q(user=request.user)).distinct()
@@ -31,6 +32,7 @@ def home(request):
     return render(request, 'blog/home.html', context=context)
 
 
+@login_required
 def posts(request):
     tickets = models.Ticket.objects.filter(user=request.user).distinct()
     reviews = (models.Review.objects.filter(Q(user=request.user)).distinct())
@@ -123,6 +125,7 @@ def ticket_create(request):
     return render(request, 'blog/ticket_create.html', {'form': form})
 
 
+@login_required
 def ticket_request(request):
     if request.method == 'POST':
         form = forms.TicketForm(request.POST, request.FILES)
@@ -140,10 +143,10 @@ def ticket_request(request):
     return render(request, 'blog/ticket_request.html', {'form': form})
 
 
-@login_required
-def view_ticket(request, ticket_id):
-    ticket = get_object_or_404(models.Ticket, id=ticket_id)
-    return render(request, 'blog/view_ticket.html', {'ticket': ticket})
+# @login_required
+# def view_ticket(request, ticket_id):
+#     ticket = get_object_or_404(models.Ticket, id=ticket_id)
+#     return render(request, 'blog/view_ticket.html', {'ticket': ticket})
 
 
 @login_required
@@ -233,6 +236,7 @@ def ticket_and_review(request):
             ticket.save()
             review = review_form.save(commit=False)
             review.ticket = ticket
+            review.headline = ticket.title
             review.user = request.user
             review.save()
             return redirect('home')

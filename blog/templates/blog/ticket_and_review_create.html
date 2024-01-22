@@ -1,12 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
 
-  <h2>Create Ticket and Review</h2>
+  <h2 >Création ticket et review</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-
+<h3 class="text-primary">Ticket</h3>
     {{ ticket_form.as_p }}
-    {{ review_form.as_p }}
+
+    <div class="form-group">
+      <label for="{{ review_form.rating.id_for_label }}" class="form-label">Note :</label>
+      <div id="{{ review_form.rating.id_for_label }}" class="form-check form-check-inline">
+        {% for radio in review_form.rating %}
+          {{ radio }}
+        {% endfor %}
+      </div>
+    </div>
+<h3 class="text-primary">Review</h3>
+    <div class="form-group">
+      <label for="{{ review_form.headline.id_for_label }}" class="form-label">Titre :</label>
+      {{ review_form.headline }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ review_form.body.id_for_label }}" class="form-label">Commentaire :</label>
+      {{ review_form.body }}
+    </div>
 
     <button type="submit">Create Ticket and Review</button>
   </form>

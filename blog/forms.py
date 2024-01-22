@@ -60,7 +60,6 @@ class TicketAndReviewForm(forms.ModelForm):
         widget=forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)]),
         label='Rating'
     )
-    headline = forms.CharField(label='Headline')
     body = forms.CharField(widget=forms.Textarea(), label='Body')
 
 
