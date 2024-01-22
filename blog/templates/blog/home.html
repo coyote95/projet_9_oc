@@ -42,7 +42,11 @@
                                 <br>
                                 {{instance.description}}
                             </p>
-                             <a href="{% url 'review_create' instance.id %}" class="btn btn-primary">review</a>
+                                   {% if instance.user_has_reviewed_ticket %}
+            <p class="text-info">Vous avez déjà publié une review sur ce ticket.</p>
+        {% else %}
+            <a href="{% url 'review_create' instance.id %}" class="btn btn-primary">Review</a>
+        {% endif %}
                         </div>
                     </div>
          {% elif instance|model_type == 'Review' %}

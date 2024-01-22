@@ -37,8 +37,8 @@ class Review(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(5)]
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    headline = models.CharField(max_length=128)
-    body = models.TextField(max_length=1000, blank=True)
+    headline = models.CharField(max_length=128, verbose_name='titre')
+    body = models.TextField(max_length=1000, blank=True, verbose_name='commentaires')
     time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

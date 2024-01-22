@@ -15,10 +15,13 @@ logger = logging.getLogger(__name__)
 def home(request):
     following_users = UserFollows.objects.filter(user=request.user).values_list('followed_user', flat=True)
     tickets = models.Ticket.objects.filter(Q(user__in=following_users) | Q(user=request.user)).distinct()
-    reviews = (models.Review.objects.filter(Q(user__in=following_users) | Q(user=request.user) | Q(ticket__user=
-                                                                                                   request.user)).distinct())
+    reviews = (models.Review.objects.filter(Q(user__in=following_users) | Q(user=request.user) | Q(ticket__user=request.user)).distinct())
     tickets_and_reviews = sorted(
         chain(tickets, reviews), key=lambda instance: instance.time_created, reverse=True)
+
+    for instance in tickets_and_reviews:
+        if isinstance(instance, models.Ticket):  # Only check reviews for Ticket instances
+            instance.user_has_reviewed_ticket = models.Review.objects.filter(user=request.user, ticket=instance).exists()
 
     context = {
         'tickets_and_reviews': tickets_and_reviews,
@@ -41,6 +44,10 @@ def posts(request):
 @login_required
 def review_create(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    existing_review = models.Review.objects.filter(user=request.user, ticket=ticket).first()
+
+    if existing_review:
+        return redirect('home')
     if request.method == 'POST':
         form = forms.ReviewForm(request.POST)
         if form.is_valid():
