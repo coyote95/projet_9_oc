@@ -27,7 +27,8 @@
                                 {{instance.description}}
                             </p>
 
-                             <a href="{% url 'edit_ticket' instance.id  %}" class="btn btn-primary">modifier</a>
+                             <a href="{% url 'edit_ticket' instance.id  %}" class="btn btn-primary">Modifier</a>
+                            <a href="{% url 'delete_ticket' instance.id  %}" class="btn btn-primary">Supprimer</a>
                         </div>
                     </div>
          {% elif instance|model_type == 'Review' %}

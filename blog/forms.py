@@ -22,9 +22,15 @@ class TicketForm(forms.ModelForm):
         model = models.Ticket
         fields = ['title', 'image', 'description']
 
-
 class DeleteTicketForm(forms.Form):
-    delete_blog = forms.BooleanField(widget=forms.HiddenInput, initial=True)
+    confirm_delete = forms.BooleanField(
+        required=True,
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
+    )
+
+
+# class DeleteTicketForm(forms.Form):
+#     delete_blog = forms.BooleanField(widget=forms.HiddenInput, initial=True)
 
 
 class UserFollowsForm(forms.Form):

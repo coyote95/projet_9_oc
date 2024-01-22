@@ -16,7 +16,7 @@ def home(request):
     following_users = UserFollows.objects.filter(user=request.user).values_list('followed_user', flat=True)
     tickets = models.Ticket.objects.filter(Q(user__in=following_users) | Q(user=request.user)).distinct()
     reviews = (models.Review.objects.filter(Q(user__in=following_users) | Q(user=request.user) | Q(ticket__user=
-                                                                                                   request.user)) .distinct())
+                                                                                                   request.user)).distinct())
     tickets_and_reviews = sorted(
         chain(tickets, reviews), key=lambda instance: instance.time_created, reverse=True)
 
@@ -28,7 +28,7 @@ def home(request):
 
 def posts(request):
     tickets = models.Ticket.objects.filter(user=request.user).distinct()
-    reviews = (models.Review.objects.filter( Q(user=request.user)) .distinct())
+    reviews = (models.Review.objects.filter(Q(user=request.user)).distinct())
     tickets_and_reviews = sorted(
         chain(tickets, reviews), key=lambda instance: instance.time_created, reverse=True)
 
@@ -36,6 +36,7 @@ def posts(request):
         'tickets_and_reviews': tickets_and_reviews,
     }
     return render(request, 'blog/posts.html', context=context)
+
 
 @login_required
 def review_create(request, ticket_id):
@@ -101,23 +102,35 @@ def edit_ticket(request, ticket_id):
     if request.user != ticket.user:
         return redirect('home')
     edit_form = forms.TicketForm(instance=ticket)
-    delete_form = forms.DeleteTicketForm()
+
     if request.method == "POST":
         if 'edit_ticket' in request.POST:
             edit_form = forms.TicketForm(request.POST, instance=ticket)
             if edit_form.is_valid():
                 edit_form.save()
-                return redirect('home')
-        if 'delete_ticket' in request.POST:
-            delete_form = forms.DeleteTicketForm(request.POST)
-            if delete_form.is_valid():
-                ticket.delete()
-                return redirect('home')
+                return redirect('posts')
+    return render(request, 'blog/edit_ticket.html', {'edit_form': edit_form})
+
+
+@login_required
+def delete_ticket(request, ticket_id):
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    if request.user != ticket.user:
+        return redirect('posts')
+
+    if request.method == "POST":
+        delete_form = forms.DeleteTicketForm(request.POST)
+        if delete_form.is_valid():
+            ticket.delete()
+            return redirect('posts')
+    else:
+        delete_form = forms.DeleteTicketForm()
+
     context = {
-        'edit_form': edit_form,
+        'ticket': ticket,
         'delete_form': delete_form,
     }
-    return render(request, 'blog/edit_ticket.html', context=context)
+    return render(request, 'blog/delete_ticket.html', context)
 
 
 @login_required

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form method="post" action="{% url 'delete_ticket' ticket.id %}">
+  {% csrf_token %}
+  <p>Confirmez la suppression du billet "{{ ticket.title }}" :</p>
+  {{ delete_form.confirm_delete }}
+  <label for="{{ delete_form.confirm_delete.id_for_label }}">Je confirme la suppression</label>
+  <br>
+  <button type="submit" class="btn btn-danger">Supprimer</button>
+  <a href="{% url 'edit_ticket' ticket.id %}" class="btn btn-primary">Annuler</a>
+</form>
+
+
+
+{% endblock content %}

@@ -33,6 +33,7 @@ urlpatterns = [
     path('ticket/request/', blog.views.ticket_request, name='ticket_request'),
     path('ticket/<int:ticket_id>', blog.views.view_ticket, name='view_ticket'),
     path('ticket/<int:ticket_id>/edit', blog.views.edit_ticket, name='edit_ticket'),
+    path('ticket/<int:ticket_id>/delete_ticket', blog.views.delete_ticket, name='delete_ticket'),
     path('review/<int:ticket_id>/create/', blog.views.review_create, name='review_create'),
     path('subscribe/', blog.views.subscribe, name='subscribe'),
     path('unsubscribe/', blog.views.unsubscribe, name='unsubscribe'),

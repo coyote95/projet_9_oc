@@ -7,17 +7,6 @@
         {% csrf_token %}
         <button type="submit" class="btn btn-secondary" >Sauvegarder</button>
     </form>
-<hr>
-    <h2>Supprimer le billet</h2>
-    <form method="post">
-        {{delete_form}}
-        {% csrf_token %}
-        <button type="submit" name="delete_ticket" class="btn btn-secondary">Supprimer</button>
-    </form>
-
-
-<p>afficher element du billet</p>
-
 
 
 {% endblock content %}
