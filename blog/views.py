@@ -56,6 +56,47 @@ def review_create(request, ticket_id):
 
 
 @login_required
+def review_edit(request, review_id):
+    review = get_object_or_404(models.Review, id=review_id)
+
+    if request.user != review.user:
+        return redirect('posts')
+
+    if request.method == 'POST':
+        form = forms.ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect('posts')
+    else:
+        form = forms.ReviewForm(instance=review)
+
+    return render(request, 'blog/review_edit.html', {'form': form, 'review': review})
+
+
+@login_required
+def review_delete(request, review_id):
+    review = get_object_or_404(models.Review, id=review_id)
+
+    if request.user != review.user:
+        return redirect('posts')
+
+    if request.method == 'POST':
+        delete_form = forms.DeleteReviewForm(request.POST)
+        if delete_form.is_valid():
+            review.delete()
+            return redirect('posts')
+    else:
+        delete_form = forms.DeleteReviewForm()
+
+    context = {
+        'review': review,
+        'delete_form': delete_form,
+    }
+
+    return render(request, 'blog/review_delete.html', context)
+
+
+@login_required
 def ticket_create(request):
     if request.method == 'POST':
         form = forms.TicketForm(request.POST, request.FILES)
