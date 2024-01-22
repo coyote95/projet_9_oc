@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
+
   <h2>Création de ticket</h2>
+
     <form method="post" enctype="multipart/form-data" >
         {{ form.as_p }}
-           {% csrf_token %}
+        {% csrf_token %}
         <button type="submit" >Publier</button>
     </form>
+<br>
    <form method="get" action="{% url 'home' %}">
-                <button type="submit" class="btn btn-secondary">Annuler</button>
-            </form>
+       <button type="submit" class="btn btn-secondary">Annuler</button>
+   </form>
 
 {% endblock content %}

@@ -2,7 +2,8 @@
 {% load blog_extras %}
 {% load static %}
 {% block content %}
-    <h2 class="text-center">Tickets</h2>
+
+<h2 class="text-center">Flux: Tickets et Reviews</h2>
 
 <!--bouton-->
 <div class="row m-3">
@@ -15,6 +16,12 @@
     <div class="col d-flex  justify-content-center">
       <form method="get" action="{% url 'ticket_request' %}">
             <button type="submit" class="btn btn-secondary">Demander une critique</button>
+        </form>
+    </div>
+
+      <div class="col d-flex  justify-content-center">
+      <form method="get" action="{% url 'ticket_and_review_create' %}">
+            <button type="submit" class="btn btn-secondary">Crée critique et review</button>
         </form>
     </div>
 </div>
@@ -49,7 +56,10 @@
         {% endif %}
                         </div>
                     </div>
+
+
          {% elif instance|model_type == 'Review' %}
+
 
             <div class="card m-2" >
                  <p class="fs-5 fw-bold">Review</p>
@@ -57,7 +67,7 @@
                         <img class="card-img-top  img-fluid w-50 mx-auto m-3" src="{{ instance.ticket.image.url }}" alt="Review Image">
                 {% endif %}
                         <h3 class="card-title text-center text-primary "> {{ instance.headline}} </h3>
-
+                    <div class="card-body">
                       <p> <span class="text-decoration-underline"> Rating:</span>
                     {% if instance.rating == 5 %}
                     <img src="{% static 'images/stars5.png' %}" alt="Image for Rating 5">
@@ -77,10 +87,11 @@
                     <br>
                     <br>
 
-                    <span class="text-decoration-underline"> Description :</span>
+                    <span class="text-decoration-underline"> Commentaires: :</span>
                     <br>
                     {{ instance.body }}
                 </p>
+                        </div>
             </div>
 
          {% endif %}
@@ -88,8 +99,6 @@
      </div>
         {% endfor %}
 </div>
-
-
 
 
 {% endblock content %}

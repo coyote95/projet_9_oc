@@ -4,7 +4,7 @@
 {% block content %}
 
 
-<h3>Voici vos posts</h3>
+<h3>Voici vos posts:</h3>
 <div class="row">
         {% for instance in tickets_and_reviews %}
 
@@ -38,8 +38,12 @@
                 {% if instance.ticket.image %}
                         <img class="card-img-top  img-fluid w-50 mx-auto m-3" src="{{ instance.ticket.image.url }}" alt="Review Image">
                 {% endif %}
+
+
+
                         <h3 class="card-title text-center text-primary "> {{ instance.headline}} </h3>
-                <p> <span class="text-decoration-underline"> Rating:</span>
+                 <div class="card-body">
+                <p> <span class="text-decoration-underline"> Note:</span>
                     {% if instance.rating == 5 %}
                     <img src="{% static 'images/stars5.png' %}" alt="Image for Rating 5">
                        {% elif instance.rating == 4 %}
@@ -58,7 +62,7 @@
                     <br>
                     <br>
 
-                    <span class="text-decoration-underline"> Description :</span>
+                    <span class="text-decoration-underline"> Commentaires :</span>
                     <br>
                     {{ instance.body }}
                 </p>
@@ -66,6 +70,7 @@
                 <a href="{% url 'review_edit' instance.id %}" class="btn btn-primary">Modifier</a>
                 <a href="{% url 'review_delete' instance.id%}" class="btn btn-primary">Supprimer</a>
                 </p>
+                     </div>
             </div>
 
          {% endif %}

@@ -15,13 +15,15 @@ logger = logging.getLogger(__name__)
 def home(request):
     following_users = UserFollows.objects.filter(user=request.user).values_list('followed_user', flat=True)
     tickets = models.Ticket.objects.filter(Q(user__in=following_users) | Q(user=request.user)).distinct()
-    reviews = (models.Review.objects.filter(Q(user__in=following_users) | Q(user=request.user) | Q(ticket__user=request.user)).distinct())
+    reviews = (models.Review.objects.filter(
+        Q(user__in=following_users) | Q(user=request.user) | Q(ticket__user=request.user)).distinct())
     tickets_and_reviews = sorted(
         chain(tickets, reviews), key=lambda instance: instance.time_created, reverse=True)
 
     for instance in tickets_and_reviews:
         if isinstance(instance, models.Ticket):  # Only check reviews for Ticket instances
-            instance.user_has_reviewed_ticket = models.Review.objects.filter(user=request.user, ticket=instance).exists()
+            instance.user_has_reviewed_ticket = models.Review.objects.filter(user=request.user,
+                                                                             ticket=instance).exists()
 
     context = {
         'tickets_and_reviews': tickets_and_reviews,
@@ -216,6 +218,33 @@ def subscribe(request):
     followers = UserFollows.objects.filter(followed_user=current_user).values_list('user__username', flat=True)
 
     return render(request, 'blog/subscribe.html', {'form': form, 'following': following, 'followers': followers})
+
+
+@login_required
+def ticket_and_review(request):
+    if request.method == 'POST':
+        ticket_form = forms.TicketForm(request.POST, request.FILES)
+        review_form = forms.ReviewForm(request.POST)
+        if all([ticket_form.is_valid(), review_form.is_valid()]):
+            ticket = ticket_form.save(commit=False)
+            ticket.user = request.user
+            ticket.uploader = request.user
+            ticket.ticket_type = 'CREATED'
+            ticket.save()
+            review = review_form.save(commit=False)
+            review.ticket = ticket
+            review.user = request.user
+            review.save()
+            return redirect('home')
+    else:
+        ticket_form = forms.TicketForm()
+        review_form = forms.ReviewForm()
+
+    context = {
+        'ticket_form': ticket_form,
+        'review_form': review_form,
+    }
+    return render(request, 'blog/ticket_and_review_create.html', context)
 
 
 @login_required

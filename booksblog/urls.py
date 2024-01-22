@@ -29,6 +29,7 @@ urlpatterns = [
     path('logout/', authentication.views.logout_user, name='logout'),
     path('home/', blog.views.home, name='home'),
     path('signup/', authentication.views.signup_page, name='signup'),
+    path('ticket_review/create/', blog.views.ticket_and_review, name='ticket_and_review_create'),
     path('ticket/create/', blog.views.ticket_create, name='ticket_create'),
     path('ticket/request/', blog.views.ticket_request, name='ticket_request'),
     path('ticket/<int:ticket_id>/edit', blog.views.ticket_edit, name='ticket_edit'),
