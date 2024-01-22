@@ -145,23 +145,23 @@ def view_ticket(request, ticket_id):
 
 
 @login_required
-def edit_ticket(request, ticket_id):
+def ticket_edit(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     if request.user != ticket.user:
         return redirect('home')
     edit_form = forms.TicketForm(instance=ticket)
 
     if request.method == "POST":
-        if 'edit_ticket' in request.POST:
+        if 'ticket_edit' in request.POST:
             edit_form = forms.TicketForm(request.POST, instance=ticket)
             if edit_form.is_valid():
                 edit_form.save()
                 return redirect('posts')
-    return render(request, 'blog/edit_ticket.html', {'edit_form': edit_form})
+    return render(request, 'blog/ticket_edit.html', {'edit_form': edit_form})
 
 
 @login_required
-def delete_ticket(request, ticket_id):
+def ticket_delete(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     if request.user != ticket.user:
         return redirect('posts')
@@ -178,7 +178,7 @@ def delete_ticket(request, ticket_id):
         'ticket': ticket,
         'delete_form': delete_form,
     }
-    return render(request, 'blog/delete_ticket.html', context)
+    return render(request, 'blog/ticket_delete.html', context)
 
 
 @login_required

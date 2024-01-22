@@ -32,7 +32,7 @@ class DeleteReviewForm(forms.Form):
 
 
 class TicketForm(forms.ModelForm):
-    edit_ticket = forms.BooleanField(widget=forms.HiddenInput, initial=True)
+    ticket_edit = forms.BooleanField(widget=forms.HiddenInput, initial=True)
     ticket_type = forms.CharField(widget=forms.HiddenInput(), initial='CREATED')
 
     class Meta:
