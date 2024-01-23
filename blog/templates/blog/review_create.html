@@ -1,38 +1,40 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h2>Création de review</h2>
+
+<h2>Création de review</h2>
+
 <p>Le ticket sélectionné est: <strong>{{ ticket.title }} </strong></p>
+<img src="{{ ticket.image.url }}" alt="ticket_image">
 
-  <img src="{{ ticket.image.url }}" alt="ticket_image">
+<form method="post" action="{% url 'review_create' ticket.id %}">
 
-  <form method="post" action="{% url 'review_create' ticket.id %}">
-    {% csrf_token %}
-
-    <div class="form-group">
+  {% csrf_token %}
+  <div class="form-group">
       <label for="{{ form.rating.id_for_label }}" class="form-label">Note :</label>
       <div id="{{ form.rating.id_for_label }}" class="form-check form-check-inline">
-        {% for radio in form.rating %}
-          {{ radio }}
-        {% endfor %}
+          {% for radio in form.rating %}
+            {{ radio }}
+          {% endfor %}
       </div>
-    </div>
+  </div>
 
-    <div class="form-group">
-      <label for="{{ form.headline.id_for_label }}" class="form-label">Titre :</label>
-      {{ form.headline }}
-    </div>
+  <div class="form-group">
+    <label for="{{ form.headline.id_for_label }}" class="form-label">Titre :</label>
+        {{ form.headline }}
+  </div>
 
-    <div class="form-group">
-      <label for="{{ form.body.id_for_label }}" class="form-label">Commentaire :</label>
+  <div class="form-group">
+    <label for="{{ form.body.id_for_label }}" class="form-label">Commentaire :</label>
       {{ form.body }}
-    </div>
+  </div>
 
-    <button type="submit" >Publier</button>
-  </form>
+  <button type="submit" >Publier</button>
+</form>
 
 <br>
-  <form method="get" action="{% url 'home' %}">
+
+<form method="get" action="{% url 'home' %}">
     <button type="submit" class="btn btn-secondary">Annuler</button>
-  </form>
+</form>
 
 {% endblock content %}

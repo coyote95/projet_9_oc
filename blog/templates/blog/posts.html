@@ -5,78 +5,77 @@
 
 
 <h3 class="text-center">Voici vos posts:</h3>
+
 <div class="row">
-        {% for instance in tickets_and_reviews %}
+    {% for instance in tickets_and_reviews %}
 
-     <div class="col-12  col-sm-6 col-lg-3">
+        <div class="col-12  col-sm-6 col-lg-3">
 
-         {% if instance|model_type == 'Ticket' %}
+            {% if instance|model_type == 'Ticket' %}
 
-                    <div class="card m-2"  >
-                        <p class="fs-5 fw-bold">{{ instance.get_ticket_type_display }}</p>
-                        <img src="{{ instance.image.url }}" class="card-img-top  img-fluid w-50 mx-auto m-3"
-                             alt="Image du ticket">
-                        <div class="card-body">
-                            <h3 class="card-title text-center text-primary"> {{ instance.title }}</h3>
-                            <p class="card-text overflow-auto" style="max-height: 200px;">
-                                Publié par <strong>{% display_you instance.user %}</strong> ({{instance.time_created}})
-                                <br>
-                                <br>
-                               <span class="text-decoration-underline"> Description :</span>
-                                <br>
-                                {{instance.description}}
-                            </p>
-
-                             <a href="{% url 'ticket_edit' instance.id  %}" class="btn btn-primary">Modifier</a>
-                            <a href="{% url 'ticket_delete' instance.id  %}" class="btn btn-primary">Supprimer</a>
-                        </div>
+                <div class="card m-2"  >
+                    <p class="fs-5 fw-bold">{{ instance.get_ticket_type_display }}</p>
+                    <img src="{{ instance.image.url }}" class="card-img-top  img-fluid w-50 mx-auto m-3"
+                         alt="Image du ticket">
+                    <div class="card-body">
+                        <h3 class="card-title text-center text-primary"> {{ instance.title }}</h3>
+                        <p class="card-text overflow-auto" style="max-height: 200px">
+                            Publié par <strong>{% display_you instance.user %}</strong> ({{instance.time_created}})
+                            <br>
+                            <br>
+                           <span class="text-decoration-underline"> Description :</span>
+                            <br>
+                            {{instance.description}}
+                        </p>
+                        <a href="{% url 'ticket_edit' instance.id  %}" class="btn btn-primary">Modifier</a>
+                        <a href="{% url 'ticket_delete' instance.id  %}" class="btn btn-primary">Supprimer</a>
                     </div>
-         {% elif instance|model_type == 'Review' %}
+                </div>
 
-            <div class="card m-2" >
-                 <p class="fs-5 fw-bold">Review</p>
-                {% if instance.ticket.image %}
-                        <img class="card-img-top  img-fluid w-50 mx-auto m-3" src="{{ instance.ticket.image.url }}" alt="Review Image">
-                {% endif %}
+            {% elif instance|model_type == 'Review' %}
 
+                <div class="card m-2" >
+                    <p class="fs-5 fw-bold">Review</p>
+                    {% if instance.ticket.image %}
+                        <img class="card-img-top  img-fluid w-50 mx-auto m-3" src="{{ instance.ticket.image.url }}"
+                             alt="Review Image">
+                    {% endif %}
+                    <h3 class="card-title text-center text-primary "> {{ instance.headline}} </h3>
+                    <div class="card-body">
+                        <p> <span class="text-decoration-underline"> Note:</span>
+                            {% if instance.rating == 5 %}
+                                <img src="{% static 'images/stars5.png' %}" alt="Image for Rating 5">
+                            {% elif instance.rating == 4 %}
+                                <img src="{% static 'images/stars4.png' %}" alt="Image for Rating 4">
+                            {% elif instance.rating == 3 %}
+                                <img src="{% static 'images/stars3.png' %}" alt="Image for Rating 3">
+                            {% elif instance.rating == 2 %}
+                                <img src="{% static 'images/stars4.png' %}" alt="Image for Rating 2">
+                            {% elif instance.rating == 1 %}
+                                <img src="{% static 'images/stars1.png' %}" alt="Image for Rating 1">
+                            {% endif %}
+                        </p>
 
+                        <p class="card-text">
+                            Publié par <strong>{% display_you instance.user %}</strong>  ({{instance.time_created}})
+                            <br>
+                            <br>
 
-                        <h3 class="card-title text-center text-primary "> {{ instance.headline}} </h3>
-                 <div class="card-body">
-                <p> <span class="text-decoration-underline"> Note:</span>
-                    {% if instance.rating == 5 %}
-                    <img src="{% static 'images/stars5.png' %}" alt="Image for Rating 5">
-                       {% elif instance.rating == 4 %}
-                    <img src="{% static 'images/stars4.png' %}" alt="Image for Rating 4">
-                        {% elif instance.rating == 3 %}
-                    <img src="{% static 'images/stars3.png' %}" alt="Image for Rating 3">
-                       {% elif instance.rating == 2 %}
-                    <img src="{% static 'images/stars4.png' %}" alt="Image for Rating 2">
-                        {% elif instance.rating == 1 %}
-                    <img src="{% static 'images/stars1.png' %}" alt="Image for Rating 1">
-                {% endif %}
-                </p>
+                            <span class="text-decoration-underline"> Commentaires :</span>
+                            <br>
+                            {{ instance.body }}
+                        </p>
+                        <p>
+                        <a href="{% url 'review_edit' instance.id %}" class="btn btn-primary">Modifier</a>
+                        <a href="{% url 'review_delete' instance.id%}" class="btn btn-primary">Supprimer</a>
+                        </p>
+                    </div>
+                </div>
 
-                <p class="card-text">
-                    Publié par <strong>{% display_you instance.user %}</strong>  ({{instance.time_created}})
-                    <br>
-                    <br>
+            {% endif %}
 
-                    <span class="text-decoration-underline"> Commentaires :</span>
-                    <br>
-                    {{ instance.body }}
-                </p>
-                <p>
-                <a href="{% url 'review_edit' instance.id %}" class="btn btn-primary">Modifier</a>
-                <a href="{% url 'review_delete' instance.id%}" class="btn btn-primary">Supprimer</a>
-                </p>
-                     </div>
-            </div>
-
-         {% endif %}
-
-     </div>
-        {% endfor %}
+        </div>
+    {% endfor %}
 </div>
 
 {% endblock content %}
