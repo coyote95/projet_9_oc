@@ -39,6 +39,10 @@ class TicketForm(forms.ModelForm):
         model = models.Ticket
         fields = ['title', 'image', 'description']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['image'].required = False
+
 
 class DeleteTicketForm(forms.Form):
     confirm_delete = forms.BooleanField(

@@ -106,7 +106,6 @@ def review_delete(request, review_id):
 
     return render(request, 'blog/review_delete.html', context)
 
-
 @login_required
 def ticket_create(request):
     if request.method == 'POST':
@@ -114,16 +113,18 @@ def ticket_create(request):
 
         if form.is_valid():
             ticket = form.save(commit=False)
+            if not ticket.image:
+                ticket.image = 'none.png'
             ticket.user = request.user
             ticket.uploader = request.user
             ticket.ticket_type = 'CREATED'
             ticket.save()
             return redirect('home')
+
     else:
         form = forms.TicketForm()
 
     return render(request, 'blog/ticket_create.html', {'form': form})
-
 
 @login_required
 def ticket_request(request):
@@ -132,6 +133,8 @@ def ticket_request(request):
 
         if form.is_valid():
             ticket = form.save(commit=False)
+            if not ticket.image:
+                ticket.image = 'none.png'
             ticket.user = request.user
             ticket.uploader = request.user
             ticket.ticket_type = 'REQUEST'
@@ -154,15 +157,21 @@ def ticket_edit(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     if request.user != ticket.user:
         return redirect('home')
-    edit_form = forms.TicketForm(instance=ticket)
 
     if request.method == "POST":
-        if 'ticket_edit' in request.POST:
-            edit_form = forms.TicketForm(request.POST, instance=ticket)
-            if edit_form.is_valid():
-                edit_form.save()
-                return redirect('posts')
-    return render(request, 'blog/ticket_edit.html', {'edit_form': edit_form})
+        edit_form = forms.TicketForm(request.POST,request.FILES, instance=ticket)
+        if edit_form.is_valid():
+            ticket = edit_form.save(commit=False)
+            if 'image-clear' in request.POST:
+                ticket.image = 'none.png'
+            elif 'image' in request.FILES:
+                # Update 'image' if a new file is provided
+                ticket.image = request.FILES['image']
+            ticket.save()
+            return redirect('posts')
+    else:
+        edit_form = forms.TicketForm(instance=ticket)
+    return render(request, 'blog/ticket_edit.html', {'edit_form': edit_form, 'ticket': ticket})
 
 
 @login_required
@@ -230,6 +239,8 @@ def ticket_and_review(request):
         review_form = forms.ReviewForm(request.POST)
         if all([ticket_form.is_valid(), review_form.is_valid()]):
             ticket = ticket_form.save(commit=False)
+            if not ticket.image:
+                ticket.image = 'none.png'
             ticket.user = request.user
             ticket.uploader = request.user
             ticket.ticket_type = 'CREATED'

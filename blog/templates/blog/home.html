@@ -37,8 +37,14 @@
 
                     <div class="card m-2"  >
                         <p class="fs-5 fw-bold">{{ instance.get_ticket_type_display }}</p>
-                        <img src="{{ instance.image.url }}" class="card-img-top  img-fluid w-50 mx-auto m-3"
-                             alt="Image du ticket">
+
+                            {% if not instance.image %}
+        <img src="{% static 'images/none.png' %}" class="card-img-top img-fluid w-50 mx-auto m-3"
+             alt="Image par défaut">
+    {% else %}
+        <img src="{{ instance.image.url }}" class="card-img-top img-fluid w-50 mx-auto m-3" alt="Image du ticket">
+    {% endif %}
+
                         <div class="card-body">
                             <h3 class="card-title text-center text-primary"> {{ instance.title }}</h3>
                             <p class="card-text overflow-auto" style="max-height: 200px;">
@@ -50,7 +56,7 @@
                                 {{instance.description}}
                             </p>
                                    {% if instance.user_has_reviewed_ticket %}
-            <p class="text-info">Vous avez déjà publié une review sur ce ticket.</p>
+            <p class="text-primary">Vous avez déjà publié une review sur ce ticket.</p>
         {% else %}
             <a href="{% url 'review_create' instance.id %}" class="btn btn-primary">Review</a>
         {% endif %}

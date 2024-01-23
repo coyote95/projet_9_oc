@@ -3,7 +3,7 @@
   <h2>Création de review</h2>
 <p>Le ticket sélectionné est: <strong>{{ ticket.title }} </strong></p>
 
-  <img src="{{ ticket.image.url }}">
+  <img src="{{ ticket.image.url }}" alt="ticket_image">
 
   <form method="post" action="{% url 'review_create' ticket.id %}">
     {% csrf_token %}
