@@ -38,12 +38,8 @@
                     <div class="card m-2"  >
                         <p class="fs-5 fw-bold">{{ instance.get_ticket_type_display }}</p>
 
-                            {% if not instance.image %}
-        <img src="{% static 'images/none.png' %}" class="card-img-top img-fluid w-50 mx-auto m-3"
-             alt="Image par défaut">
-    {% else %}
-        <img src="{{ instance.image.url }}" class="card-img-top img-fluid w-50 mx-auto m-3" alt="Image du ticket">
-    {% endif %}
+                         <img src="{{ instance.image.url }}" class="card-img-top img-fluid w-50 mx-auto m-3" alt="Image du ticket">
+
 
                         <div class="card-body">
                             <h3 class="card-title text-center text-primary"> {{ instance.title }}</h3>

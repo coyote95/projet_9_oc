@@ -11,6 +11,11 @@
     <button type="submit">Sauvegarder</button>
   </form>
 
-  <a href="{% url 'posts' %}">Cancel</a>
+  <br>
+  <form method="get" action="{% url 'posts' %}">
+    <button type="submit" class="btn btn-secondary">Annuler</button>
+  </form>
+
+
 
 {% endblock content %}
