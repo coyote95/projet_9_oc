@@ -1,3 +1,12 @@
+"""
+This module defines Django models.
+
+Model Classes:
+    - Ticket: Represents a ticket with associated information, including user, image, and ticket type.
+    - Review: Represents a review associated with a ticket, including rating, user, and comments.
+"""
+
+
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.conf import settings
@@ -5,6 +14,24 @@ from PIL import Image
 
 
 class Ticket(models.Model):
+    """
+        Represents a ticket with associated information, including user, image, and ticket type.
+
+        Attributes:
+            title: CharField
+            description: TextField
+            user: ForeignKey
+            image: ImageField
+            uploader: ForeignKey
+            time_created: DateTimeField
+            ticket_type: CharField ('CREATED', 'REQUEST').
+            IMAGE_MAX_SIZE: Tuple (x,y)
+
+        Methods:
+            __str__(): Returns a string representation of the ticket, displaying its title.
+            resize_image(): Resizes the uploaded image to fit within the specified maximum size.
+            save(): Overrides the save method to automatically trigger image resizing on every save.
+        """
     TICKET_TYPE_CHOICES = (
         ('CREATED', 'Critique'),
         ('REQUEST', 'Demande'),
@@ -32,6 +59,20 @@ class Ticket(models.Model):
 
 
 class Review(models.Model):
+    """
+    Represents a review associated with a ticket, including rating, user, and comments.
+
+    Attributes:
+        ticket: ForeignKey
+        rating: PositiveSmallIntegerField (0 to 5).
+        user: ForeignKey
+        headline: CharField
+        body: TextField
+        time_created: DateTimeField
+
+    Methods:
+        __str__(): Returns a string representation of the review, indicating the associated ticket and user.
+    """
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(5)]

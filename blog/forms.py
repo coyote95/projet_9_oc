@@ -1,10 +1,30 @@
+"""
+This module defines various Django forms.
+
+Form Classes:
+    - ReviewForm: Form for creating new reviews.
+    - ReviewEditForm: Form for editing existing reviews.
+    - DeleteReviewForm: Form for confirming the deletion of a review.
+    - TicketForm: Form for creating and editing tickets.
+    - DeleteTicketForm: Form for confirming the deletion of a ticket.
+    - TicketAndReviewForm: Form combining fields for both tickets and reviews.
+    - UserFollowsForm: Form for following users.
+"""
+
 from django import forms
 from . import models
-from django.shortcuts import get_object_or_404
-from authentication.models import User
 
 
 class ReviewForm(forms.ModelForm):
+    """
+    Form for creating new reviews.
+
+    Attributes:
+        rating: IntegerField
+        headline: CharField
+        body: CharField
+    """
+
     class Meta:
         model = models.Review
         fields = ['rating', 'headline', 'body']
@@ -15,6 +35,14 @@ class ReviewForm(forms.ModelForm):
 
 
 class ReviewEditForm(forms.ModelForm):
+    """
+     Form for editing existing reviews.
+
+     Attributes:
+         rating: IntegerField
+         headline: CharField
+         body: CharField
+     """
     class Meta:
         model = models.Review
         fields = ['rating', 'headline', 'body']
@@ -25,6 +53,12 @@ class ReviewEditForm(forms.ModelForm):
 
 
 class DeleteReviewForm(forms.Form):
+    """
+    Form for confirming the deletion of a review.
+
+    Attributes:
+        confirm_delete: BooleanField
+    """
     confirm_delete = forms.BooleanField(
         required=True,
         widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
@@ -32,6 +66,15 @@ class DeleteReviewForm(forms.Form):
 
 
 class TicketForm(forms.ModelForm):
+    """
+    Form for creating and editing tickets.
+
+    Attributes:
+        title: CharField
+        image: ImageField
+        description: CharField
+    """
+
     ticket_edit = forms.BooleanField(widget=forms.HiddenInput, initial=True)
     ticket_type = forms.CharField(widget=forms.HiddenInput(), initial='CREATED')
 
@@ -45,6 +88,12 @@ class TicketForm(forms.ModelForm):
 
 
 class DeleteTicketForm(forms.Form):
+    """
+     Form for confirming the deletion of a ticket.
+
+     Attributes:
+         confirm_delete: BooleanField
+     """
     confirm_delete = forms.BooleanField(
         required=True,
         widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
@@ -52,6 +101,17 @@ class DeleteTicketForm(forms.Form):
 
 
 class TicketAndReviewForm(forms.ModelForm):
+    """
+    Form combining fields for both tickets and reviews.
+
+    Attributes:
+        title: CharField
+        image: ImageField
+        description: CharField r
+        rating: IntegerField
+        body: CharField
+    """
+
     ticket_edit = forms.BooleanField(widget=forms.HiddenInput, initial=True)
     ticket_type = forms.CharField(widget=forms.HiddenInput(), initial='CREATED')
 
@@ -59,7 +119,6 @@ class TicketAndReviewForm(forms.ModelForm):
         model = models.Ticket
         fields = ['title', 'image', 'description']
 
-    # Champs spécifiques à la review
     rating = forms.IntegerField(
         widget=forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)]),
         label='Rating'
@@ -68,4 +127,10 @@ class TicketAndReviewForm(forms.ModelForm):
 
 
 class UserFollowsForm(forms.Form):
+    """
+     Form for following users.
+
+     Attributes:
+         username: CharField
+     """
     username = forms.CharField(label='Nom de l\'utilisateur')

@@ -1,3 +1,15 @@
+"""
+This module configures the Django Admin interface .
+
+Admin Classes:
+    - TicketsAdmin: Customizes the display of Ticket model with ('title', 'description', 'user', 'time_created').
+    - ReviewsAdmin: Customizes the display of Review model with ('ticket', 'rating', 'user', 'headline', 'body',
+     'time_created')
+    - UserFollowsAdmin: Customizes the display of UserFollows model with('user', 'followed_user')
+
+"""
+
+
 from django.contrib import admin
 from blog.models import Ticket, Review
 from authentication.models import UserFollows
