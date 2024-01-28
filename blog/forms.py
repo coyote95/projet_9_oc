@@ -27,29 +27,30 @@ class ReviewForm(forms.ModelForm):
 
     class Meta:
         model = models.Review
-        fields = ['rating', 'headline', 'body']
+        fields = ["rating", "headline", "body"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['rating'].widget = forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)])
+        self.fields["rating"].widget = forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)])
 
 
 class ReviewEditForm(forms.ModelForm):
     """
-     Form for editing existing reviews.
+    Form for editing existing reviews.
 
-     Attributes:
-         rating: IntegerField
-         headline: CharField
-         body: CharField
-     """
+    Attributes:
+        rating: IntegerField
+        headline: CharField
+        body: CharField
+    """
+
     class Meta:
         model = models.Review
-        fields = ['rating', 'headline', 'body']
+        fields = ["rating", "headline", "body"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['rating'].widget = forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)])
+        self.fields["rating"].widget = forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)])
 
 
 class DeleteReviewForm(forms.Form):
@@ -59,10 +60,8 @@ class DeleteReviewForm(forms.Form):
     Attributes:
         confirm_delete: BooleanField
     """
-    confirm_delete = forms.BooleanField(
-        required=True,
-        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
-    )
+
+    confirm_delete = forms.BooleanField(required=True, widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
 
 
 class TicketForm(forms.ModelForm):
@@ -76,28 +75,26 @@ class TicketForm(forms.ModelForm):
     """
 
     ticket_edit = forms.BooleanField(widget=forms.HiddenInput, initial=True)
-    ticket_type = forms.CharField(widget=forms.HiddenInput(), initial='CREATED')
+    ticket_type = forms.CharField(widget=forms.HiddenInput(), initial="CREATED")
 
     class Meta:
         model = models.Ticket
-        fields = ['title', 'image', 'description']
+        fields = ["title", "image", "description"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['image'].required = False
+        self.fields["image"].required = False
 
 
 class DeleteTicketForm(forms.Form):
     """
-     Form for confirming the deletion of a ticket.
+    Form for confirming the deletion of a ticket.
 
-     Attributes:
-         confirm_delete: BooleanField
-     """
-    confirm_delete = forms.BooleanField(
-        required=True,
-        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
-    )
+    Attributes:
+        confirm_delete: BooleanField
+    """
+
+    confirm_delete = forms.BooleanField(required=True, widget=forms.CheckboxInput(attrs={"class": "form-check-input"}))
 
 
 class TicketAndReviewForm(forms.ModelForm):
@@ -113,24 +110,22 @@ class TicketAndReviewForm(forms.ModelForm):
     """
 
     ticket_edit = forms.BooleanField(widget=forms.HiddenInput, initial=True)
-    ticket_type = forms.CharField(widget=forms.HiddenInput(), initial='CREATED')
+    ticket_type = forms.CharField(widget=forms.HiddenInput(), initial="CREATED")
 
     class Meta:
         model = models.Ticket
-        fields = ['title', 'image', 'description']
+        fields = ["title", "image", "description"]
 
-    rating = forms.IntegerField(
-        widget=forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)]),
-        label='Rating'
-    )
-    body = forms.CharField(widget=forms.Textarea(), label='Body')
+    rating = forms.IntegerField(widget=forms.RadioSelect(choices=[(i, str(i)) for i in range(1, 6)]), label="Rating")
+    body = forms.CharField(widget=forms.Textarea(), label="Body")
 
 
 class UserFollowsForm(forms.Form):
     """
-     Form for following users.
+    Form for following users.
 
-     Attributes:
-         username: CharField
-     """
-    username = forms.CharField(label='Nom de l\'utilisateur')
+    Attributes:
+        username: CharField
+    """
+
+    username = forms.CharField(label="Nom de l'utilisateur")

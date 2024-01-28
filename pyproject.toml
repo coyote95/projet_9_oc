@@ -1,4 +1,9 @@
 [tool.black]
-line-length = 120
-target-version = ['py39']
-encoding = 'utf-8'
+line-length = 119
+exclude = '''
+/(
+    \.git
+  | \.env
+  | migrations
+)/
+'''
