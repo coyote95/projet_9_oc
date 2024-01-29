@@ -19,7 +19,7 @@ Creation of the website 'LITReview' using the Django framework and Bootstrap.  T
 Install project with powershell windows:
 
 ```bash
-    git clone https://github.com/coyote95/projet_9_oc
+    git clone https://github.com/coyote95/projet_9_oc.git
     cd projet_9_oc
     python -m venv ENV
     source ENV/Scripts/activate
