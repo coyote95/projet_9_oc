@@ -2,7 +2,7 @@
 # Projet 9 OpenClassrooms: Develop a web application using Django
 
 
-Creation of the website 'LITReview' using the Django framework and Bootstrap.  This website aims to manage login,subscribers critiques and reviews for books.
+Creation of the website 'LITReview' using the Django framework and Bootstrap.  This website aims to manage login, subscribers critiques and reviews for books.
 
 
 
